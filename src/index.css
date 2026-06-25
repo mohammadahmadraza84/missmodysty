@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body text-plum-900 bg-ivory;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply bg-gold-500 hover:bg-gold-600 text-white font-body font-medium px-6 py-3 transition-all duration-200 tracking-wide;
+  }
+
+  .btn-outline {
+    @apply border border-plum-900 text-plum-900 hover:bg-plum-900 hover:text-white font-body font-medium px-6 py-3 transition-all duration-200 tracking-wide;
+  }
+
+  .section-title {
+    @apply font-display text-3xl md:text-4xl font-light text-plum-900 leading-tight;
+  }
+
+  .section-eyebrow {
+    @apply text-gold-500 font-body text-xs tracking-[0.2em] uppercase font-medium;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .nav-link {
+    @apply font-body text-sm tracking-wide text-plum-700 hover:text-gold-500 transition-colors duration-200;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #F7F4F0; }
+::-webkit-scrollbar-thumb { background: #8B6F7D; border-radius: 3px; }
+
+/* Hide scrollbar for horizontal scroll on occasion strip */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
