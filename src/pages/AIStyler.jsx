@@ -1,6 +1,16 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Sparkles, RotateCcw } from 'lucide-react'
 
+function renderMessage(text) {
+  let html = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+  html = html.replace(
+    /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#D4AF7A;text-decoration:underline;font-weight:500;">$1</a>'
+  )
+  html = html.replace(/\n/g, '<br/>')
+  return html
+}
+
 const STARTERS = [
   "I need a nikah guest outfit, budget £100, UK size 14",
   "What should I wear to work this winter? I wear hijab",
@@ -126,13 +136,16 @@ export default function AIStyler() {
                   <Sparkles size={14} className="text-gold-400" />
                 </div>
               )}
-              <div className={`max-w-[80%] px-4 py-3 font-body text-sm leading-relaxed whitespace-pre-wrap ${
-                msg.role === 'user'
-                  ? 'bg-plum-900 text-white'
-                  : 'bg-white border border-blush text-plum-800'
-              }`}>
-                {msg.content}
-              </div>
+              <div
+                className={`max-w-[80%] px-4 py-3 font-body text-sm leading-relaxed ${
+                  msg.role === 'user'
+                    ? 'bg-plum-900 text-white'
+                    : 'bg-white border border-blush text-plum-800'
+                }`}
+                dangerouslySetInnerHTML={{
+                  __html: msg.role === 'assistant' ? renderMessage(msg.content) : msg.content
+                }}
+              />
             </div>
           ))}
 
