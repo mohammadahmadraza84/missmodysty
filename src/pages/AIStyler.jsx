@@ -5,7 +5,11 @@ function renderMessage(text) {
   let html = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
   html = html.replace(
     /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#D4AF7A;text-decoration:underline;font-weight:500;">$1</a>'
+    '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#D4AF7A;text-decoration:underline;font-weight:500;">$1 ↗</a>'
+  )
+  html = html.replace(
+    /(?<!href=")(https?:\/\/[^\s<)"]+)/g,
+    '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#D4AF7A;text-decoration:underline;font-weight:500;">Shop here ↗</a>'
   )
   html = html.replace(/\n/g, '<br/>')
   return html
