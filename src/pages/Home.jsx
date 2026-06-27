@@ -237,7 +237,7 @@ export default function Home() {
           <p className="font-body text-plum-600 text-sm mb-8">
             Weekly curations, styling tips, new brand arrivals, and exclusive discount codes.
           </p>
-          <form className="flex gap-0" onSubmit={e => e.preventDefault()}>
+          <form className="flex gap-0" onSubmit={e => { e.preventDefault(); window.gtag?.('event', 'newsletter_signup') }}>
             <input
               type="email"
               placeholder="Your email address"

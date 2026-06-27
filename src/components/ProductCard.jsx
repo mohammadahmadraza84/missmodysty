@@ -66,6 +66,7 @@ export default function ProductCard({ product }) {
             href={product.affiliateUrl || '#'}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => window.gtag?.('event', 'affiliate_click', { brand: product.brand, product_name: product.name })}
             className="flex items-center gap-1.5 bg-plum-900 hover:bg-plum-800 text-white font-body text-xs px-3 py-2 tracking-wide transition-colors"
           >
             Shop <ExternalLink size={11} />

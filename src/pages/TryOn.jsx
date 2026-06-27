@@ -85,6 +85,7 @@ export default function TryOn() {
       if (data.error) throw new Error(data.error)
       setPredictionId(data.id)
       setStep(3)
+      window.gtag?.('event', 'tryon_started')
       pollStatus(data.id)
     } catch (e) {
       setError(e.message || 'Failed to start try-on. Please try again.')
@@ -104,6 +105,7 @@ export default function TryOn() {
           setLoading(false)
           setPolling(false)
           clearInterval(interval)
+          window.gtag?.('event', 'tryon_completed')
         } else if (data.status === 'failed') {
           setError('Try-on generation failed. Please try again.')
           setLoading(false)

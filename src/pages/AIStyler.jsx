@@ -67,6 +67,7 @@ export default function AIStyler() {
     setMessages(newMessages)
     setInput('')
     setLoading(true)
+    window.gtag?.('event', 'mody_message_sent')
     setError(null)
 
     try {
