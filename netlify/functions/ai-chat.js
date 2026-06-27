@@ -1,3 +1,6 @@
+const { getStore } = require('@netlify/blobs')
+const { randomUUID } = require('crypto')
+
 exports.handler = async (event) => {
   const headers = {
     'Content-Type': 'application/json',
@@ -20,7 +23,23 @@ exports.handler = async (event) => {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid request body' }) }
     }
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    // Log the user's query anonymously — runs in parallel with the AI call, fails silently
+    const logQuery = async () => {
+      try {
+        const userMessages = messages.filter(m => m.role === 'user')
+        const lastMessage = userMessages[userMessages.length - 1]?.content ?? ''
+        const sessionId = randomUUID()
+        const store = getStore('mody-logs')
+        await store.set(`${Date.now()}-${sessionId}`, JSON.stringify({
+          message: lastMessage,
+          timestamp: new Date().toISOString(),
+          sessionId,
+        }))
+      } catch (_) {}
+    }
+
+    const [response] = await Promise.all([
+      fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -67,7 +86,8 @@ CRITICAL FORMATTING RULES — follow these exactly every time:
 - Keep responses to 200 words maximum unless the user asks for more`,
         messages: messages,
       }),
-    })
+      logQuery(),
+    ])
 
     if (!response.ok) {
       const errorData = await response.json()
