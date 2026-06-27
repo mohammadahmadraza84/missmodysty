@@ -86,7 +86,8 @@ CRITICAL FORMATTING RULES — follow these exactly every time:
 - Keep responses to 200 words maximum unless the user asks for more`,
         messages: messages,
       }),
-      logQuery(),
+      }),
+      logQuery().catch(() => {}),
     ])
 
     if (!response.ok) {
